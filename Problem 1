@@ -1,0 +1,29 @@
+import pandas as pd
+
+hello1 = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'Math':[80, 95, 79]}
+hey1 = pd.DataFrame(hello1, columns=['Student', 'Math'])
+
+hello2 = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'Electronics':[85, 81, 83]}
+hey2 = pd.DataFrame(hello2, columns=['Student', 'Electronics'])
+
+hello3 = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'GEAS':[90, 79, 93]}
+hey3 = pd.DataFrame(hello3, columns=['Student', 'GEAS'])
+
+hello4 = {'Student':['Ice Bear', 'Panda', 'Grizzly'], 'ESAT':[93, 89, 88]}
+hey4 = pd.DataFrame(hello4, columns=['Student', 'ESAT'])
+
+s1 = pd.merge(hey1, hey2, how='outer', on = 'Student')
+s2 = pd.merge(hey3, hey4, how='outer', on = 'Student')
+
+scores = pd.merge(s1, s2, how='outer', on = 'Student')
+
+tidy_scores = pd.melt(scores, id_vars = 'Student', 
+                      value_vars = ['Math', 'Electronics','GEAS', 'ESAT'])
+
+w = tidy_scores.rename (columns = {'variable':'Subject', 'value':'Grades'})
+b = w.sort_values('Student')
+wbb = b.reset_index()
+
+we_bare_bears = wbb.drop(columns = 'index')
+
+print (we_bare_bears)
